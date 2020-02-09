@@ -1,11 +1,12 @@
 package com.revature.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "REVIEWS")
-public class Review {
+public class Review implements Serializable {
 
     @Id
     @JoinColumn(name = "user_id", nullable = false)
