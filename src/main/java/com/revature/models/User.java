@@ -13,7 +13,7 @@ public class User {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
-    private int id;
+    private int userId;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -25,7 +25,7 @@ public class User {
     private String email;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private Role role;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
@@ -59,19 +59,19 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String username, String password, Role role) {
-        this.id = id;
+    public User(int userId, String username, String password, Role role) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -129,7 +129,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return userId == user.userId &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(role, user.role);
@@ -137,13 +137,13 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role);
+        return Objects.hash(userId, username, password, role);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
