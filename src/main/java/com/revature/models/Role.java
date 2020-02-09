@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Roles")
+@Table(name = "ROLES")
 @SequenceGenerator(name = "role_gen", sequenceName = "role_seq", allocationSize = 1)
 public class Role {
 
@@ -18,6 +18,10 @@ public class Role {
 
     public Role () {
         super();
+    }
+
+    public Role(String role) {
+        this.role = role;
     }
 
     public Role(int id, String role) {
