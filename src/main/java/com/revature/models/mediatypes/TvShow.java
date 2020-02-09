@@ -1,4 +1,6 @@
-package com.revature.models;
+package com.revature.models.mediatypes;
+
+import com.revature.models.Media;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
