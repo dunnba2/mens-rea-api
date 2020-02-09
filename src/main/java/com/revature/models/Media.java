@@ -12,7 +12,7 @@ public abstract class Media {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "media_gen")
-    private int id;
+    private int mediaId;
 
     @Column(nullable = false)
     private String title;
@@ -41,8 +41,8 @@ public abstract class Media {
         this.userRating = userRating;
     }
 
-    public Media(int id, String title, String creator, String year, String targetAudience, int userRating) {
-        this.id = id;
+    public Media(int mediaId, String title, String creator, String year, String targetAudience, int userRating) {
+        this.mediaId = mediaId;
         this.title = title;
         this.creator = creator;
         this.year = year;
@@ -50,12 +50,12 @@ public abstract class Media {
         this.userRating = userRating;
     }
 
-    public int getId() {
-        return id;
+    public int getMediaId() {
+        return mediaId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMediaId(int mediaId) {
+        this.mediaId = mediaId;
     }
 
     public String getTitle() {
@@ -103,7 +103,7 @@ public abstract class Media {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Media media = (Media) o;
-        return id == media.id &&
+        return mediaId == media.mediaId &&
                 userRating == media.userRating &&
                 Objects.equals(title, media.title) &&
                 Objects.equals(creator, media.creator) &&
@@ -113,13 +113,13 @@ public abstract class Media {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, creator, year, targetAudience, userRating);
+        return Objects.hash(mediaId, title, creator, year, targetAudience, userRating);
     }
 
     @Override
     public String toString() {
         return "Media{" +
-                "id=" + id +
+                "id=" + mediaId +
                 ", title='" + title + '\'' +
                 ", creator='" + creator + '\'' +
                 ", year='" + year + '\'' +
