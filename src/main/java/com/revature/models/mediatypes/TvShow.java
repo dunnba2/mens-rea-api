@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 public class TvShow extends Media {
 
     public TvShow() {
+        super();
     }
 
     public TvShow(String title, String creator, String year, String targetAudience, int userRating) {
