@@ -1,7 +1,9 @@
 package com.revature.repos;
 
+import com.revature.dtos.Credentials;
 import com.revature.models.User;
 import com.revature.util.HibernateUtil;
+import jdk.internal.jline.internal.Log;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -94,5 +96,17 @@ public class UserRepository implements CrudRepository<User> {
             LOG.error(e.getMessage());
         }
         return null;
+    }
+    public Optional<User> findByCredentials(Credentials c) {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+
+            session.getTransaction().commit();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+        }
+        return Optional.empty();
     }
 }
