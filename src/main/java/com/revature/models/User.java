@@ -15,7 +15,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
     private int userId;
 
-    @Column(nullable = false, unique = true)
+    @JoinColumn(nullable = false, unique = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     private String username;
 
     @Column(nullable = false)
@@ -28,20 +29,24 @@ public class User {
     @JoinColumn(nullable = false)
     private Role role;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name="WATCHLIST",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id")
-    )
+
+    /*    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+      @JoinTable(
+                name="WATCHLIST",
+                joinColumns = @JoinColumn(name="user_id"),
+                inverseJoinColumns = @JoinColumn(name = "media_id")
+        )*/
+    @OneToMany(mappedBy = "users")
     private Set<Media> watchList;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name="Favorites",
+
+/*    @JoinTable(
+            name="FAVORITES",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name = "media_id")
-    )
+    )*/
+
+    @OneToMany(mappedBy = "users")
     private Set<Media> favorites;
 
     public User() {
