@@ -71,7 +71,7 @@ public class User {
         this.role = role;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 

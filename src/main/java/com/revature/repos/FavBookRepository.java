@@ -1,7 +1,8 @@
 package com.revature.repos;
 
 import com.revature.models.Favorite;
-import com.revature.models.Media;
+
+import com.revature.models.mediatypes.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -9,26 +10,26 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class FavoriteRepository implements CrudRepository<Media> {
+public class FavBookRepository implements CrudRepository<Book> {
 
     private SessionFactory sessionFactory;
 
-    public Set<Media> findAllByUserId(String user) {
-        Set<Media> favList = new HashSet<>();
+    public Set<Book> findAllByUserId(String user) {
+        Set<Book> favList = new HashSet<>();
         try(Session session = sessionFactory.getCurrentSession().getSession()){
-            return (Set<Media>) session.createQuery("from favorites where owner = :user", Favorite.class);
-                    //.setParameter("user", )
+            return (Set<Book>) session.createQuery("from favorites where owner = :user", Favorite.class);
+            //.setParameter("user", )
 
         }
     }
 
-    public void delete(Media newObj){
+    public void delete(Book newObj){
         try(Session session = sessionFactory.getCurrentSession().getSession()){
             session.delete(newObj);
         }
     }
 
-    public void deleteAll(Set<Media> newObj){
+    public void deleteAll(Set<Book> newObj){
         try(Session session = sessionFactory.getCurrentSession().getSession()){
             while(newObj != null){
                 session.delete(newObj);
@@ -36,41 +37,39 @@ public class FavoriteRepository implements CrudRepository<Media> {
         }
     }
 
-/*    public Set<Media> sort(Media newObj){
+    /*    public Set<Media> sort(Media newObj){
         return null;
     }*/
 
     @Override
-    public Media save(Media newObj) {
-
+    public Book save(Book newObj) {
         try(Session session = sessionFactory.getCurrentSession().getSession()){
-            return (Media) session.save(newObj);
+            return (Book) session.save(newObj);
         }
     }
 
-
     @Override
-    public Set<Media> findAll() {
-        Set<Media> medias = new HashSet<>();
+    public Set<Book> findAll() {
+        Set<Book> medias = new HashSet<>();
 
         try(Session session = sessionFactory.getCurrentSession().getSession()){
-            session.createQuery("from Media", Media.class);
+            session.createQuery("from Book", Book.class);
         }
         return medias;
     }
 
     @Override
-    public Optional<Media> findById(Integer id) {
-        Optional<Media> _media = Optional.empty();
+    public Optional<Book> findById(Integer id) {
+        Optional<Book> _media = Optional.empty();
 
         try(Session session = sessionFactory.getCurrentSession().getSession()){
-            session.createQuery("from Media where mediaId = :id", Media.class);
+            session.createQuery("from Book where mediaId = :id", Book.class);
         }
         return _media;
     }
 
     @Override
-    public Boolean update(Media updatedObj) {
+    public Boolean update(Book updatedObj) {
         return null;
     }
 
@@ -78,6 +77,5 @@ public class FavoriteRepository implements CrudRepository<Media> {
     public Boolean deleteById(Integer id) {
         return null;
     }
-
-
 }
+

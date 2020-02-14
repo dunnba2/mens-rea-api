@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "FAVORITES")
 @SequenceGenerator(name = "fav_gen", sequenceName = "fav_seq", allocationSize = 1)
-public class Favorites {
+public class Favorite {
 
     @Id
     @Column
@@ -29,12 +29,12 @@ public class Favorites {
     })
     private Set<Media> favoriteMedia;
 
-    public Favorites(){
+    public Favorite(){
         super();
         favoriteMedia = new HashSet<>();
     }
 
-    public Favorites(User owner, Set<Media> favoriteMedia) {
+    public Favorite(User owner, Set<Media> favoriteMedia) {
         this.owner = owner;
         this.favoriteMedia = favoriteMedia;
     }
@@ -59,9 +59,9 @@ public class Favorites {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Favorites favorites = (Favorites) o;
-        return Objects.equals(owner, favorites.owner) &&
-                Objects.equals(favoriteMedia, favorites.favoriteMedia);
+        Favorite favorite = (Favorite) o;
+        return Objects.equals(owner, favorite.owner) &&
+                Objects.equals(favoriteMedia, favorite.favoriteMedia);
     }
 
     @Override
