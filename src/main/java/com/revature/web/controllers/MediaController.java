@@ -1,6 +1,8 @@
 package com.revature.web.controllers;
 
 import com.revature.models.Media;
+import com.revature.models.User;
+import com.revature.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +31,19 @@ public class MediaController {
         return mediaService.getAllMedia();
     }
 
-    @GetMapping(value = "/book/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllBooks(@PathVariable String type) {
+    @GetMapping(value = "/Book", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllBooks() {
+        String type = "BOOK";
         return mediaService.getAllMediaByType(type);
     }
-
-    @GetMapping(value = "/show/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllShows(@PathVariable String type) {
+    @GetMapping(value = "/Show", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllShows() {
+        String type = "SHOW";
         return mediaService.getAllMediaByType(type);
     }
-
-    @GetMapping(value = "/movie/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllMovies(@PathVariable String type) {
+    @GetMapping(value = "/Movie", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllMovies() {
+        String type = "MOVIE";
         return mediaService.getAllMediaByType(type);
     }
 
@@ -62,5 +65,16 @@ public class MediaController {
     @GetMapping(value = "/watchlist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getWatchlist(@PathVariable int id) {
         return mediaService.getWatchlist(id);
+    }
+
+    /* the deletion implementation might need some adjustments */
+    @GetMapping(value = "/removefav", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFromFavorites (User user, Media media) {
+        mediaService.deleteFromFavorites(user, media);
+    }
+
+    @GetMapping(value = "/removewatch", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFromWatchlist (User user, Media media) {
+        mediaService.deleteFromWatchlist(user, media);
     }
 }

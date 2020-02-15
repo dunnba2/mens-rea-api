@@ -68,7 +68,12 @@ public class MediaRepository implements CrudRepository<Media> {
         Session session = factory.getCurrentSession();
         user.addFavorite(media);
         session.save(media);
+    }
 
+    public List<Media> removeFromFavorites(User user, Media media){
+        Session session = factory.getCurrentSession();
+        user.removeFromFavorite(media);
+        return findFavorites(user.getUserId());
     }
 
     public List<Media> findWatchlist(int id) {
@@ -83,6 +88,12 @@ public class MediaRepository implements CrudRepository<Media> {
         Session session = factory.getCurrentSession();
         user.addToWatchlist(media);
         session.save(media);
+    }
+
+    public List<Media> removeFromWatchList(User user, Media media){
+        Session session = factory.getCurrentSession();
+        user.removeFromFavorite(media);
+        return findWatchlist(user.getUserId());
     }
 
     public List<Media> findAllByType (String type) {

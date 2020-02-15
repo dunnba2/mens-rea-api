@@ -60,4 +60,14 @@ public class MediaService {
         return mediaRepo.findWatchlist(id);
     }
 
+    @Transactional
+    public List<Media> deleteFromFavorites(User user, Media media){
+        return mediaRepo.removeFromFavorites(user, media);
+    }
+
+
+    @Transactional
+    public List<Media> deleteFromWatchlist(User user, Media media){
+        return mediaRepo.removeFromWatchList(user, media);
+    }
 }

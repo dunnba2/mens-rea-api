@@ -130,9 +130,17 @@ public class User implements Serializable {
         favorites.add(fav);
     }
 
+    public void removeFromFavorite(Media media){
+        favorites.remove(media);
+    }
+
     public void addToWatchlist(Media newItem) {
         if(watchList == null) watchList = new ArrayList<>();
         watchList.add(newItem);
+    }
+
+    private void removeFromWatchlist(Media media){
+        watchList.remove(media);
     }
 
     public Principal extractPrincipal(){
