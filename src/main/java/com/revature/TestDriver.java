@@ -13,6 +13,7 @@ public class TestDriver {
 
 //        addRole();
 //        addMedia();
+
     }
 
     public static void addRole() {
@@ -37,6 +38,7 @@ public class TestDriver {
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
 
             session.beginTransaction();
+
 //            Movie m1 = new Movie("Who Framed Roger Rabbit?", "Robert Zemeckis", "1988", "PG", 0);
 //            Movie m2 = new Movie("Crooked House", "Giles Paquet-Brenner", "2017", "PG-13", 0);
 //            Movie m3 = new Movie("Murder on the Orient Express", "Kenneth Branagh", "2017", "PG-13", 0);
@@ -189,6 +191,8 @@ public class TestDriver {
             session.save(bh);
             session.save(bi);
             session.save(bj);
+
+
 
 
             session.getTransaction().commit();
