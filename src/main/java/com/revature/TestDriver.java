@@ -13,7 +13,8 @@ public class TestDriver {
 //        addRole();
 //        addMedia();
 
-
+    }
+}
 //    public static void addRole() {
 //
 //        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
@@ -66,4 +67,4 @@ public class TestDriver {
 //            session.save(m12);
 //            session.save(m13);
 
-}
+//}
