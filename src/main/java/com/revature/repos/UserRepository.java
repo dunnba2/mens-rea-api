@@ -1,111 +1,71 @@
 package com.revature.repos;
 
-import com.revature.dtos.Credentials;
+
 import com.revature.models.User;
-import com.revature.util.HibernateUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.revature.web.dtos.Credentials;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+@Repository
 public class UserRepository implements CrudRepository<User> {
 
-    private static final Logger LOG = LogManager.getLogger(UserRepository.class);
-    private static SessionFactory factory = HibernateUtil.getSessionFactory();
+    private SessionFactory factory;
+
+    @Autowired
+    public UserRepository(SessionFactory factory) {
+        super();
+        this.factory = factory;
+    }
 
     @Override
     public User save(User newUser) {
 
-        try (Session session = factory.getCurrentSession()) {
+        Session session = factory.getCurrentSession();
+        session.save(newUser);
 
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-
-        return null;
+        return newUser;
     }
 
     @Override
-    public Set<User> findAll() {
+    public List<User> findAll() {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        List<User> users = new ArrayList<>();
+        Session session = factory.getCurrentSession();
+        session.createQuery("from User", User.class).getResultList();
+        return users;
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public User findById(Integer id) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return Optional.empty();
+        Session session = factory.getCurrentSession();
+        return session.get(User.class, id);
     }
 
     @Override
-    public Boolean update(User updatedObj) {
+    public void update(User updatedObj) {
 
-        try (Session session = factory.getCurrentSession()) {
+        Session session = factory.getCurrentSession();
+        session.saveOrUpdate(updatedObj);
 
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
     }
 
     @Override
-    public Boolean deleteById(Integer id) {
+    public void deleteById(Integer id) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
     }
-    public Optional<User> findByCredentials(Credentials c) {
-        try (Session session = factory.getCurrentSession()) {
-            session.beginTransaction();
 
-            session.getTransaction().commit();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return Optional.empty();
+    public User findByCredentials(Credentials creds) {
+
+        Session session = factory.getCurrentSession();
+        return session.createQuery("from User au where au.username = :un and au.password = :pw", User.class)
+                .setParameter("un", creds.getUsername())
+                .setParameter("pw", creds.getPassword())
+                .getSingleResult();
     }
 }

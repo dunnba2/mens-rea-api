@@ -1,12 +1,15 @@
 package com.revature.models;
 
+import com.revature.web.dtos.Principal;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table (name="USERS")
 @SequenceGenerator(name="user_gen", sequenceName = "user_seq", allocationSize = 1)
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column
@@ -120,6 +123,10 @@ public class User {
     public void addToWatchlist(Media newItem) {
         if(watchList == null) watchList = new ArrayList<>();
         watchList.add(newItem);
+    }
+
+    public Principal extractPrincipal(){
+        return new Principal(this.userId, this.username, this.role);
     }
 
     @Override

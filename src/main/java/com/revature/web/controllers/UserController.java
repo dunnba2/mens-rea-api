@@ -1,4 +1,4 @@
-package com.revature.controllers;
+package com.revature.web.controllers;
 
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

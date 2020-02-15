@@ -2,112 +2,106 @@ package com.revature.repos;
 
 import com.revature.models.Media;
 import com.revature.models.User;
-import com.revature.util.HibernateUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class MediaRepository implements CrudRepository<Media> {
 
-    private static final Logger LOG = LogManager.getLogger(MediaRepository.class);
-    private static SessionFactory factory = HibernateUtil.getSessionFactory();
+    private SessionFactory factory;
+
+    @Autowired
+    public MediaRepository(SessionFactory factory) {
+        super();
+        this.factory = factory;
+    }
 
     @Override
     public Media save(Media newMedia) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        Session session = factory.getCurrentSession();
+        session.save(newMedia);
+        return newMedia;
     }
 
     @Override
-    public Set<Media> findAll() {
+    public List<Media> findAll() {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        List<Media> medias = new ArrayList<>();
+        Session session = factory.getCurrentSession();
+        session.createQuery("from Media", Media.class).getResultList();
+        return medias;
     }
 
     @Override
-    public Optional<Media> findById(Integer id) {
+    public Media findById(Integer id) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return Optional.empty();
+        Session session = factory.getCurrentSession();
+        return session.get(Media.class, id);
     }
 
     @Override
-    public Boolean update(Media updatedObj) {
+    public void update(Media updatedObj) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        Session session = factory.getCurrentSession();
+        session.saveOrUpdate(updatedObj);
     }
 
     @Override
-    public Boolean deleteById(Integer id) {
+    public void deleteById(Integer id) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
     }
 
-    public List<Media> findFavorites(User user) {
+    public List<Media> findFavorites(int id) {
         List<Media> favorites = new ArrayList<>();
         Session session = factory.getCurrentSession();
         favorites = session.createQuery("from Favorites f where f.userid = :userid", Media.class)
-                .setParameter("userid", user.getUserId()).getResultList();
+                .setParameter("userid", id).getResultList();
         return favorites;
     }
 
-    public List<Media> findWatchlist(User user) {
+    public void saveToFavorites(User user, Media media) {
+        Session session = factory.getCurrentSession();
+        user.addFavorite(media);
+        session.save(media);
+
+    }
+
+    public List<Media> findWatchlist(int id) {
         List<Media> watchList = new ArrayList<>();
         Session session = factory.getCurrentSession();
         watchList = session.createQuery("from WATCHLIST w where w.userid = :userid", Media.class)
-                .setParameter("userid", user.getUserId()).getResultList();
+                .setParameter("userid", id).getResultList();
         return watchList;
     }
+
+    public void saveToWatchlist(User user, Media media) {
+        Session session = factory.getCurrentSession();
+        user.addToWatchlist(media);
+        session.save(media);
+    }
+
+    public List<Media> findAllByType (String type) {
+        List<Media> typeList = new ArrayList<>();
+        Session session = factory.getCurrentSession();
+        typeList = session.createQuery("from Media m where m.media_type = :type", Media.class)
+                .setParameter("type", type)
+                .getResultList();
+        return typeList;
+    }
+
+    public List<Media> findAllByTypeAndSearch (String search, String type) {
+        List<Media> typeList = new ArrayList<>();
+        Session session = factory.getCurrentSession();
+        typeList = session.createQuery("from Media m where m.title like :search and m.media_type = :type")
+                .setParameter("search", search)
+                .setParameter("type", type)
+                .getResultList();
+        return typeList;
+    }
+
 }

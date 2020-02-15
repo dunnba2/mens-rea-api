@@ -1,97 +1,70 @@
 package com.revature.repos;
 
+import com.revature.models.Media;
 import com.revature.models.Review;
-import com.revature.util.HibernateUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+@Repository
 public class ReviewRepository implements CrudRepository<Review> {
 
-    private static final Logger LOG = LogManager.getLogger(ReviewRepository.class);
-    private static SessionFactory factory = HibernateUtil.getSessionFactory();
+    private SessionFactory factory;
+
+    @Autowired
+    public ReviewRepository(SessionFactory factory) {
+        super();
+        this.factory = factory;
+    }
 
     @Override
     public Review save(Review newReview) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        Session session = factory.getCurrentSession();
+        session.save(newReview);
+        return newReview;
     }
 
     @Override
-    public Set<Review> findAll() {
+    public List<Review> findAll() {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        List<Review> reviews = new ArrayList<>();
+        Session session = factory.getCurrentSession();
+        session.createQuery("from Reviews", Review.class).getResultList();
+        return reviews;
     }
 
     @Override
-    public Optional<Review> findById(Integer id) {
+    public Review findById(Integer id) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return Optional.empty();
+        Session session = factory.getCurrentSession();
+        return session.get(Review.class, id);
     }
 
     @Override
-    public Boolean update(Review updatedObj) {
+    public void update(Review updatedObj) {
 
-        try (Session session = factory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        Session session = factory.getCurrentSession();
+        session.saveOrUpdate(updatedObj);
     }
 
     @Override
-    public Boolean deleteById(Integer id) {
+    public void deleteById(Integer id) {
 
-        try (Session session = factory.getCurrentSession()) {
+    }
 
-            session.beginTransaction();
+    public List<Review> findAllById(int id) {
 
-            session.getTransaction().commit();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            LOG.error(e.getMessage());
-        }
-        return null;
+        List<Review> reviews = new ArrayList<>();
+        Session session = factory.getCurrentSession();
+        session.createQuery("from Reviews r where r.mediaId = :mediaId", Review.class)
+                .setParameter("mediaId", id)
+                .getResultList();
+        return reviews;
     }
 }
