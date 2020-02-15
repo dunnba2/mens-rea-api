@@ -68,4 +68,15 @@ public class MediaController {
     public List<Media> getWatchlist(@PathVariable int id) {
         return mediaService.getWatchlist(id);
     }
+
+    /* the deletion implementation might need some adjustments */
+    @GetMapping(value = "/removefav", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFromFavorites (User user, Media media) {
+        mediaService.deleteFromFavorites(user, media);
+    }
+
+    @GetMapping(value = "/removewatch", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFromWatchlist (User user, Media media) {
+        mediaService.deleteFromWatchlist(user, media);
+    }
 }
