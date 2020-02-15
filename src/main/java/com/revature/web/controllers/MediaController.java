@@ -31,18 +31,21 @@ public class MediaController {
         return mediaService.getAllMedia();
     }
 
-    @GetMapping(value = "/book/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllBooks(@PathVariable String type) {
+    @GetMapping(value = "/book", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllBooks() {
+        String type = "BOOK";
         return mediaService.getAllMediaByType(type);
     }
 
-    @GetMapping(value = "/show/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllShows(@PathVariable String type) {
+    @GetMapping(value = "/show", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllShows() {
+        String type = "SHOW";
         return mediaService.getAllMediaByType(type);
     }
 
-    @GetMapping(value = "/movie/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllMovies(@PathVariable String type) {
+    @GetMapping(value = "/movie", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllMovies() {
+        String type = "MOVIE";
         return mediaService.getAllMediaByType(type);
     }
 
