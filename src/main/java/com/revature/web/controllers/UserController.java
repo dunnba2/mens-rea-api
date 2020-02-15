@@ -1,5 +1,6 @@
 package com.revature.web.controllers;
 
+import com.revature.models.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
