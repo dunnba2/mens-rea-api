@@ -1,9 +1,7 @@
 package com.revature.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Entity
@@ -31,19 +29,22 @@ public class User {
     private Role role;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
-            name = "user_watch",
-            joinColumns = @JoinColumn(name ="media_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            name="WATCHLIST",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "media_id")
+    )
     private List<Media> watchList;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
-            name = "user_fav",
-            joinColumns = @JoinColumn(name ="media_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            name="Favorites",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "media_id")
+    )
+
     private List<Media> favorites;
 
     public User() {
