@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -14,18 +15,22 @@ public abstract class Media {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "media_gen")
     private int mediaId;
 
+    @NotNull
     @Column(nullable = false)
     private String title;
 
+    @NotNull
     @Column(nullable = false)
     private String creator;
 
+    @NotNull
     @Column(nullable = false)
     private String year;
 
     @Column
     private String targetAudience;
 
+    @NotNull
     @Column(nullable = false)
     private int userRating;
 

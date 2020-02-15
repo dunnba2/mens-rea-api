@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,9 +19,11 @@ public class Review implements Serializable {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private Media mediaId;
 
+    @NotNull
     @Column(nullable = false)
     private boolean recommended;
 
+    @NotNull
     @Column(nullable = false)
     private String review;
 
