@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import java.util.*;
 
 @Repository
@@ -97,10 +98,10 @@ public class MediaRepository implements CrudRepository<Media> {
     public List<Media> findAllByTypeAndSearch (String search, String type) {
         List<Media> typeList = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        typeList = session.createQuery("from Media m where m.title like :search and m.media_type = :type")
-                .setParameter("search", search)
-                .setParameter("type", type)
-                .getResultList();
+        Query query = session.createQuery("from Media m where m.title like :search and m.media_type = :type");
+        query.setParameter("search", search)
+                .setParameter("type", type);
+        typeList = query.getResultList();
         return typeList;
     }
 
