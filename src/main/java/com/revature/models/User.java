@@ -1,9 +1,10 @@
 package com.revature.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table (name="USERS")
@@ -30,24 +31,20 @@ public class User {
     private Role role;
 
 
-    /*    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-      @JoinTable(
-                name="WATCHLIST",
-                joinColumns = @JoinColumn(name="user_id"),
-                inverseJoinColumns = @JoinColumn(name = "media_id")
-        )*/
-    @OneToMany(mappedBy = "users")
-    private Set<Media> watchList;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_watch",
+            joinColumns = @JoinColumn(name ="media_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Media> watchList;
 
 
-/*    @JoinTable(
-            name="FAVORITES",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id")
-    )*/
-
-    @OneToMany(mappedBy = "users")
-    private Set<Media> favorites;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_fav",
+            joinColumns = @JoinColumn(name ="media_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Media> favorites;
 
     public User() {
         super();
@@ -71,7 +68,7 @@ public class User {
         this.role = role;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
@@ -103,29 +100,29 @@ public class User {
         this.role = role;
     }
 
-    public Set<Media> getWatchList() {
+    public List<Media> getWatchList() {
         return watchList;
     }
 
-    public void setWatchList(Set<Media> watchList) {
+    public void setWatchList(List<Media> watchList) {
         this.watchList = watchList;
     }
 
-    public Set<Media> getFavorites() {
+    public List<Media> getFavorites() {
         return favorites;
     }
 
-    public void setFavorites(Set<Media> favorites) {
+    public void setFavorites(List<Media> favorites) {
         this.favorites = favorites;
     }
 
     public void addFavorite(Media fav) {
-        if(favorites == null) favorites = new HashSet<>();
+        if(favorites == null) favorites = new ArrayList<>();
         favorites.add(fav);
     }
 
     public void addToWatchlist(Media newItem) {
-        if(watchList == null) watchList = new HashSet<>();
+        if(watchList == null) watchList = new ArrayList<>();
         watchList.add(newItem);
     }
 

@@ -2,8 +2,9 @@ package com.revature.repos;
 
 import com.revature.models.Media;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 public class WatchListRepository implements CrudRepository<Media> {
     @Override
@@ -12,7 +13,7 @@ public class WatchListRepository implements CrudRepository<Media> {
     }
 
     @Override
-    public Set<Media> findAll() {
+    public List<Media> findAll() {
         return null;
     }
 

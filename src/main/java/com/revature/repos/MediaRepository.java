@@ -7,8 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 public class MediaRepository implements CrudRepository<Media> {
 
@@ -32,7 +33,7 @@ public class MediaRepository implements CrudRepository<Media> {
     }
 
     @Override
-    public Set<Media> findAll() {
+    public List<Media> findAll() {
 
         try (Session session = factory.getCurrentSession()) {
 

@@ -1,9 +1,10 @@
 package com.revature.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table(name="WATCHLIST")
@@ -15,21 +16,19 @@ public class WatchList {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "watchlist_gen")
     private int id;
 
-    //@OneToMany(mappedBy = "USERS", cascade = CascadeType.ALL)
-
-    @JoinColumn
-    @ManyToOne(cascade = {
-            CascadeType.REMOVE, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.PERSIST
-    })
-    private Set<Media> watchList;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_watch",
+            joinColumns = @JoinColumn(name ="media_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Media> watchList;
 
     public WatchList(){
         super();
-        watchList = new HashSet<>();
+        watchList = new ArrayList<>();
     }
 
-    public WatchList(int id, Set<Media> watchList) {
+    public WatchList(int id, List<Media> watchList) {
         this.id = id;
         this.watchList = watchList;
     }
@@ -42,11 +41,11 @@ public class WatchList {
         this.id = id;
     }
 
-    public Set<Media> getWatchList() {
+    public List<Media> getWatchList() {
         return watchList;
     }
 
-    public void setWatchList(Set<Media> watchList) {
+    public void setWatchList(List<Media> watchList) {
         this.watchList = watchList;
     }
 

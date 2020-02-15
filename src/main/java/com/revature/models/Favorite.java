@@ -1,9 +1,11 @@
 package com.revature.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "FAVORITES")
@@ -15,26 +17,26 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fav_gen")
     private User owner;
 
-    /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_fav",
             joinColumns = @JoinColumn(name ="media_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-  */
+    private List<Media> favoriteMedia;
 
-    @JoinColumn
+    /*@JoinColumn
     @ManyToOne(cascade = {
             CascadeType.REMOVE, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.PERSIST
-    })
-    private Set<Media> favoriteMedia;
+    })*/
+
 
     public Favorite(){
         super();
-        favoriteMedia = new HashSet<>();
+        favoriteMedia = new ArrayList<>();
     }
 
-    public Favorite(User owner, Set<Media> favoriteMedia) {
+    public Favorite(User owner, List<Media> favoriteMedia) {
         this.owner = owner;
         this.favoriteMedia = favoriteMedia;
     }
@@ -47,11 +49,11 @@ public class Favorite {
         this.owner = owner;
     }
 
-    public Set<Media> getFavoriteMedia() {
+    public List<Media> getFavoriteMedia() {
         return favoriteMedia;
     }
 
-    public void setFavoriteMedia(Set<Media> favoriteMedia) {
+    public void setFavoriteMedia(List<Media> favoriteMedia) {
         this.favoriteMedia = favoriteMedia;
     }
 
@@ -71,9 +73,9 @@ public class Favorite {
 
     @Override
     public String toString() {
-        return "Favorites{" +
+        return "Favorite{" +
                 "owner=" + owner +
-                ", favoriteBooks=" + favoriteMedia +
+                ", favoriteMedia=" + favoriteMedia +
                 '}';
     }
 }

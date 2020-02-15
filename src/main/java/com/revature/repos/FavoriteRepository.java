@@ -2,24 +2,29 @@ package com.revature.repos;
 
 import com.revature.models.Favorite;
 import com.revature.models.Media;
+import com.revature.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.HashSet;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 public class FavoriteRepository implements CrudRepository<Media> {
 
     private SessionFactory sessionFactory;
 
-    public Set<Media> findAllByUserId(String user) {
-        Set<Media> favList = new HashSet<>();
+    public List<Media> findAllByUserId(User currentUser) {
+        List<Media> favList = new ArrayList<>();
         try(Session session = sessionFactory.getCurrentSession().getSession()){
-            return (Set<Media>) session.createQuery("from favorites where owner = :user", Favorite.class);
-                    //.setParameter("user", )
-
+            favList = session.createQuery("from favorites fav where fav.userId = :user", Favorite.class)
+                    .setParameter("user", currentUser.getUserId()).getResultList();
+        } catch (Exception e){
+            e.printStackTrace();
         }
+        return favList;
     }
 
     public void delete(Media newObj){
@@ -28,7 +33,7 @@ public class FavoriteRepository implements CrudRepository<Media> {
         }
     }
 
-    public void deleteAll(Set<Media> newObj){
+    public void deleteAll(List<Media> newObj){
         try(Session session = sessionFactory.getCurrentSession().getSession()){
             while(newObj != null){
                 session.delete(newObj);
@@ -50,8 +55,8 @@ public class FavoriteRepository implements CrudRepository<Media> {
 
 
     @Override
-    public Set<Media> findAll() {
-        Set<Media> medias = new HashSet<>();
+    public List<Media> findAll() {
+        List<Media> medias = new ArrayList<>();
 
         try(Session session = sessionFactory.getCurrentSession().getSession()){
             session.createQuery("from Media", Media.class);

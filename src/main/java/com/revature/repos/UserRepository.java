@@ -1,5 +1,6 @@
 package com.revature.repos;
 
+import com.revature.dtos.Credentials;
 import com.revature.models.User;
 import com.revature.util.HibernateUtil;
 import org.apache.logging.log4j.LogManager;
@@ -7,8 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 public class UserRepository implements CrudRepository<User> {
 
@@ -33,7 +35,7 @@ public class UserRepository implements CrudRepository<User> {
     }
 
     @Override
-    public Set<User> findAll() {
+    public List<User> findAll() {
 
         try (Session session = factory.getCurrentSession()) {
 
@@ -94,5 +96,17 @@ public class UserRepository implements CrudRepository<User> {
             LOG.error(e.getMessage());
         }
         return null;
+    }
+    public Optional<User> findByCredentials(Credentials c) {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+
+            session.getTransaction().commit();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+        }
+        return Optional.empty();
     }
 }
