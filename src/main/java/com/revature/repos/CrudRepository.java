@@ -1,13 +1,14 @@
 package com.revature.repos;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface CrudRepository <T> {
 
     T save(T newObj);
-    Set<T> findAll();
-    Optional<T> findById(Integer id);
-    Boolean update(T updatedObj);
-    Boolean deleteById(Integer id);
+    List<T> findAll();
+    T findById(Integer id);
+    void update(T updatedObj);
+    void deleteById(Integer id);
 }

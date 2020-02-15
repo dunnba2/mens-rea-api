@@ -1,4 +1,6 @@
-package com.revature.filters;
+package com.revature.web.filters;
+
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -9,15 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter("/*")
-public class CorsFilter extends HttpFilter {
+public class CorsFilter extends OncePerRequestFilter {
+
 
     @Override
-    protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws ServletException, IOException {
+
+        applyCorsHeaders(resp);
+        chain.doFilter(req, resp);
+    }
+
+    private void applyCorsHeaders(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
         resp.setHeader("Access-Control-Allow-Headers", "Content-type");
         resp.setHeader("Access-Control-Expose-Headers", "Authorization");
-        chain.doFilter(req, resp);
     }
 
 }
