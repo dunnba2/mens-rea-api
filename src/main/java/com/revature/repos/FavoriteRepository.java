@@ -2,7 +2,6 @@ package com.revature.repos;
 
 import com.revature.models.Favorite;
 import com.revature.models.Media;
-import com.revature.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
