@@ -36,11 +36,13 @@ public class MediaController {
         String type = "BOOK";
         return mediaService.getAllMediaByType(type);
     }
+
     @GetMapping(value = "/Show", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getAllShows() {
         String type = "SHOW";
         return mediaService.getAllMediaByType(type);
     }
+
     @GetMapping(value = "/Movie", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getAllMovies() {
         String type = "MOVIE";
