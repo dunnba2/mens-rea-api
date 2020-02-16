@@ -35,8 +35,7 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
@@ -64,15 +63,22 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.email = email;
     }
 
     public User(int userId, String username, Role role) {
         this.userId = userId;
         this.username = username;
+        this.role = role;
+    }
+
+    public User(String username,  String password, String email, Role role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
         this.role = role;
     }
 
@@ -105,6 +111,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Role getRole() {
@@ -161,20 +175,22 @@ public class User implements Serializable {
         return userId == user.userId &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, password, role);
+        return Objects.hash(userId, username, password, email, role);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + userId +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
     }
