@@ -2,6 +2,9 @@ package com.revature.repos;
 
 import com.revature.models.Media;
 import com.revature.models.User;
+import com.revature.models.mediatypes.Book;
+import com.revature.models.mediatypes.Movie;
+import com.revature.models.mediatypes.TvShow;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,24 @@ public class MediaRepository implements CrudRepository<Media> {
     public MediaRepository(SessionFactory factory) {
         super();
         this.factory = factory;
+    }
+
+    public Book saveBook(Book book) {
+        Session session = factory.getCurrentSession();
+        session.save(book);
+        return book;
+    }
+
+    public Movie saveMovie(Movie movie) {
+        Session session = factory.getCurrentSession();
+        session.save(movie);
+        return movie;
+    }
+
+    public TvShow saveShow(TvShow show) {
+        Session session = factory.getCurrentSession();
+        session.save(show);
+        return show;
     }
 
     @Override
