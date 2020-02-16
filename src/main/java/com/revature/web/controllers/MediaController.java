@@ -2,6 +2,9 @@ package com.revature.web.controllers;
 
 import com.revature.models.Media;
 import com.revature.models.User;
+import com.revature.models.mediatypes.Book;
+import com.revature.models.mediatypes.Movie;
+import com.revature.models.mediatypes.TvShow;
 import com.revature.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,9 +24,19 @@ public class MediaController {
         this.mediaService = service;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Media saveNewMedia(Media media) {
-        return mediaService.saveNewMedia(media);
+    @PostMapping(value = "/Book", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Media saveNewMedia(Book book) {
+        return mediaService.saveNewBook(book);
+    }
+
+    @PostMapping(value = "/Movie", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Media saveNewMedia(Movie movie) {
+        return mediaService.saveNewMovie(movie);
+    }
+
+    @PostMapping(value = "/Show", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Media saveNewMedia(TvShow show) {
+        return mediaService.saveNewShow(show);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
