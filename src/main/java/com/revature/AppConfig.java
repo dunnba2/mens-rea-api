@@ -54,7 +54,7 @@ public class AppConfig implements WebMvcConfigurer, WebApplicationInitializer {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.revature.quizzard.entities");
+        sessionFactory.setPackagesToScan("com.revature.models");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

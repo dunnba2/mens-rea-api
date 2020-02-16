@@ -8,39 +8,14 @@ import com.revature.models.mediatypes.TvShow;
 
 import com.revature.repos.UserRepository;
 import com.revature.services.UserService;
+import org.aspectj.weaver.ast.Test;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class TestDriver {
 
     public static void main(String[] args) {
 
-//        addRole();
-//        addMedia();
-
-    }
-}
-//    public static void addRole() {
-//
-//        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-//
-//            session.beginTransaction();
-//            Role role1 = new Role("ADMIN");
-//            Role role2 = new Role("MEMBER");
-//
-//            session.save(role1);
-//            session.save(role2);
-//
-//            session.getTransaction().commit();
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static void addMedia() {
-//
-//        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-//
-//            session.beginTransaction();
 
 //            Movie m1 = new Movie("Who Framed Roger Rabbit?", "Robert Zemeckis", "1988", "PG", 0);
 //            Movie m2 = new Movie("Crooked House", "Giles Paquet-Brenner", "2017", "PG-13", 0);
@@ -70,5 +45,6 @@ public class TestDriver {
 //            session.save(m11);
 //            session.save(m12);
 //            session.save(m13);
+    }
 
-//}
+}
