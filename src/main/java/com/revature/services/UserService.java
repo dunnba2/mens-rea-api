@@ -15,13 +15,12 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository repo) {
-        this.repo=repo;
+        this.repo = repo;
     }
 
     @Transactional
     public User register(User user) {
-        Role role = new Role(2, "MEMBER");
-        user.setRole(role);
+        user.setRole(Role.MEMBER);
         repo.save(user);
         return user;
     }
