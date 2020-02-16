@@ -25,17 +25,17 @@ public class MediaController {
     }
 
     @PostMapping(value = "/Book", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Media saveNewMedia(Book book) {
+    public Book saveNewMedia(Book book) {
         return mediaService.saveNewBook(book);
     }
 
     @PostMapping(value = "/Movie", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Media saveNewMedia(Movie movie) {
+    public Movie saveNewMedia(Movie movie) {
         return mediaService.saveNewMovie(movie);
     }
 
     @PostMapping(value = "/Show", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Media saveNewMedia(TvShow show) {
+    public TvShow saveNewMedia(TvShow show) {
         return mediaService.saveNewShow(show);
     }
 

@@ -24,18 +24,18 @@ public class MediaService {
     }
 
     @Transactional
-    public Media saveNewBook(Book book) {
-        return mediaRepo.save(book);
+    public Book saveNewBook(Book book) {
+        return mediaRepo.saveBook(book);
     }
 
     @Transactional
-    public Media saveNewMovie(Movie movie) {
-        return mediaRepo.save(movie);
+    public Movie saveNewMovie(Movie movie) {
+        return mediaRepo.saveMovie(movie);
     }
 
     @Transactional
-    public Media saveNewShow(TvShow show) {
-        return mediaRepo.save(show);
+    public TvShow saveNewShow(TvShow show) {
+        return mediaRepo.saveShow(show);
     }
 
     @Transactional
