@@ -25,17 +25,18 @@ public class MediaController {
     }
 
     @PostMapping(value = "/Book", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Book saveNewMedia(Book book) {
+    public Book saveNewMedia(@RequestBody Book book) {
+        System.out.println(book);
         return mediaService.saveNewBook(book);
     }
 
     @PostMapping(value = "/Movie", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Movie saveNewMedia(Movie movie) {
+    public Movie saveNewMedia(@RequestBody Movie movie) {
         return mediaService.saveNewMovie(movie);
     }
 
     @PostMapping(value = "/Show", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public TvShow saveNewMedia(TvShow show) {
+    public TvShow saveNewMedia(@RequestBody TvShow show) {
         return mediaService.saveNewShow(show);
     }
 
@@ -63,12 +64,12 @@ public class MediaController {
     }
 
     @PostMapping(value = "/favorites", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveNewFavorite(User user, Media media) {
+    public void saveNewFavorite(@RequestBody User user, Media media) {
         mediaService.saveToFavorites(user, media);
     }
 
     @PostMapping(value = "/watchlist", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveToWatchlist(User user, Media media) {
+    public void saveToWatchlist(@RequestBody User user, Media media) {
         mediaService.saveToWatchlist(user, media);
     }
 
@@ -84,12 +85,12 @@ public class MediaController {
 
     /* the deletion implementation might need some adjustments */
     @GetMapping(value = "/removefav", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteFromFavorites (User user, Media media) {
+    public void deleteFromFavorites (@RequestBody User user, Media media) {
         mediaService.deleteFromFavorites(user, media);
     }
 
     @GetMapping(value = "/removewatch", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteFromWatchlist (User user, Media media) {
+    public void deleteFromWatchlist (@RequestBody User user, Media media) {
         mediaService.deleteFromWatchlist(user, media);
     }
 }

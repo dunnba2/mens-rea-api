@@ -25,6 +25,7 @@ public class MediaService {
 
     @Transactional
     public Book saveNewBook(Book book) {
+        System.out.println(book);
         return mediaRepo.saveBook(book);
     }
 
