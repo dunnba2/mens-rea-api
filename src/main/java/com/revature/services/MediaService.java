@@ -2,6 +2,9 @@ package com.revature.services;
 
 import com.revature.models.Media;
 import com.revature.models.User;
+import com.revature.models.mediatypes.Book;
+import com.revature.models.mediatypes.Movie;
+import com.revature.models.mediatypes.TvShow;
 import com.revature.repos.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,18 @@ public class MediaService {
     }
 
     @Transactional
-    public Media saveNewMedia(Media media) {
-        return mediaRepo.save(media);
+    public Media saveNewBook(Book book) {
+        return mediaRepo.save(book);
+    }
+
+    @Transactional
+    public Media saveNewMovie(Movie movie) {
+        return mediaRepo.save(movie);
+    }
+
+    @Transactional
+    public Media saveNewShow(TvShow show) {
+        return mediaRepo.save(show);
     }
 
     @Transactional
