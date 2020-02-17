@@ -55,7 +55,8 @@ public class MediaRepository implements CrudRepository<Media> {
 
         List<Media> medias = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        session.createQuery("from Media", Media.class).getResultList();
+        Query query = session.createQuery("from Media", Media.class);
+        medias = query.getResultList();
         return medias;
     }
 
