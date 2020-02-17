@@ -1,10 +1,8 @@
 package com.revature.repos;
 
 import com.revature.models.Media;
+import com.revature.models.MediaTypes;
 import com.revature.models.User;
-import com.revature.models.mediatypes.Book;
-import com.revature.models.mediatypes.Movie;
-import com.revature.models.mediatypes.TvShow;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +20,6 @@ public class MediaRepository implements CrudRepository<Media> {
     public MediaRepository(SessionFactory factory) {
         super();
         this.factory = factory;
-    }
-
-    public Book saveBook(Book book) {
-        Session session = factory.getCurrentSession();
-        session.save(book);
-        return book;
-    }
-
-    public Movie saveMovie(Movie movie) {
-        Session session = factory.getCurrentSession();
-        session.save(movie);
-        return movie;
-    }
-
-    public TvShow saveShow(TvShow show) {
-        Session session = factory.getCurrentSession();
-        session.save(show);
-        return show;
     }
 
     @Override
@@ -82,8 +62,9 @@ public class MediaRepository implements CrudRepository<Media> {
     public List<Media> findFavorites(int id) {
         List<Media> favorites = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        favorites = session.createQuery("from Favorites f where f.userid = :userid", Media.class)
-                .setParameter("userid", id).getResultList();
+        Query query = session.createQuery("from Favorites f where f.userid = :userid", Media.class);
+        query.setParameter("userid", id);
+        favorites = query.getResultList();
         return favorites;
     }
 
@@ -102,8 +83,9 @@ public class MediaRepository implements CrudRepository<Media> {
     public List<Media> findWatchlist(int id) {
         List<Media> watchList = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        watchList = session.createQuery("from WATCHLIST w where w.userid = :userid", Media.class)
-                .setParameter("userid", id).getResultList();
+        Query query = session.createQuery("from WATCHLIST w where w.userid = :userid", Media.class);
+        query.setParameter("userid", id);
+        watchList = query.getResultList();
         return watchList;
     }
 
@@ -119,21 +101,21 @@ public class MediaRepository implements CrudRepository<Media> {
         return findWatchlist(user.getUserId());
     }
 
-    public List<Media> findAllByType (String type) {
+    public List<Media> findAllByType (MediaTypes type) {
         List<Media> typeList = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        typeList = session.createQuery("from Media m where m.media_type = :type", Media.class)
-                .setParameter("type", type)
-                .getResultList();
+        Query query = session.createQuery("from Media m where m.type = :type", Media.class);
+        query.setParameter("type", type);
+        typeList= query.getResultList();
         return typeList;
     }
 
-    public List<Media> findAllByTypeAndSearch (String search, String type) {
+    public List<Media> findAllByTypeAndSearch (String search, MediaTypes type) {
         List<Media> typeList = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        Query query = session.createQuery("from Media m where m.title like :search and m.media_type = :type");
-        query.setParameter("search", search)
-                .setParameter("type", type);
+        Query query = session.createQuery("from Media m where m.title like :search and m.type = :type");
+        query.setParameter("search", search);
+        query.setParameter("type", type);
         typeList = query.getResultList();
         return typeList;
     }
