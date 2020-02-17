@@ -2,9 +2,6 @@ package com.revature;
 
 import com.revature.models.Role;
 import com.revature.models.User;
-import com.revature.models.mediatypes.Book;
-import com.revature.models.mediatypes.Movie;
-import com.revature.models.mediatypes.TvShow;
 
 import com.revature.repos.UserRepository;
 import com.revature.services.UserService;

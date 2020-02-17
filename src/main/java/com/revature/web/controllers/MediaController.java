@@ -1,10 +1,8 @@
 package com.revature.web.controllers;
 
 import com.revature.models.Media;
+import com.revature.models.MediaTypes;
 import com.revature.models.User;
-import com.revature.models.mediatypes.Book;
-import com.revature.models.mediatypes.Movie;
-import com.revature.models.mediatypes.TvShow;
 import com.revature.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,20 +22,9 @@ public class MediaController {
         this.mediaService = service;
     }
 
-    @PostMapping(value = "/Book", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Book saveNewMedia(@RequestBody Book book) {
-        System.out.println(book);
-        return mediaService.saveNewBook(book);
-    }
-
-    @PostMapping(value = "/Movie", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Movie saveNewMedia(@RequestBody Movie movie) {
-        return mediaService.saveNewMovie(movie);
-    }
-
-    @PostMapping(value = "/Show", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public TvShow saveNewMedia(@RequestBody TvShow show) {
-        return mediaService.saveNewShow(show);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Media saveNewMedia(@RequestBody Media media) {
+        return mediaService.saveNewMedia(media);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,24 +34,36 @@ public class MediaController {
 
     @GetMapping(value = "/Book", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getAllBooks() {
-        String type = "BOOK";
+        MediaTypes type = MediaTypes.BOOK;
         return mediaService.getAllMediaByType(type);
     }
 
     @GetMapping(value = "/{search}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllBySearchAndType(@PathVariable("search") String search, @PathVariable("type") String type) {
+    public List<Media> getAllBySearchAndType(@PathVariable("search") String search, @PathVariable("type") String mediaType) {
+        MediaTypes type;
+        switch(mediaType) {
+            case "Book":
+                type = MediaTypes.BOOK;
+                break;
+            case "Movie":
+                type = MediaTypes.MOVIE;
+                break;
+            default:
+                type = MediaTypes.SHOW;
+                break;
+        }
         return mediaService.getAllByTypeAndSearch(search, type);
     }
 
     @GetMapping(value = "/Show", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getAllShows() {
-        String type = "SHOW";
+        MediaTypes type = MediaTypes.SHOW;
         return mediaService.getAllMediaByType(type);
     }
 
     @GetMapping(value = "/Movie", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getAllMovies() {
-        String type = "MOVIE";
+        MediaTypes type = MediaTypes.MOVIE;
         return mediaService.getAllMediaByType(type);
     }
 
