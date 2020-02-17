@@ -81,7 +81,6 @@ public class AppConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
         AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
         container.register(AppConfig.class);
-
         servletContext.addListener(new ContextLoaderListener(container));
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(container));
         dispatcher.setLoadOnStartup(1);
