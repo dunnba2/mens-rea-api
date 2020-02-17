@@ -1,10 +1,8 @@
 package com.revature.services;
 
 import com.revature.models.Media;
+import com.revature.models.MediaTypes;
 import com.revature.models.User;
-import com.revature.models.mediatypes.Book;
-import com.revature.models.mediatypes.Movie;
-import com.revature.models.mediatypes.TvShow;
 import com.revature.repos.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,19 +22,8 @@ public class MediaService {
     }
 
     @Transactional
-    public Book saveNewBook(Book book) {
-        System.out.println(book);
-        return mediaRepo.saveBook(book);
-    }
-
-    @Transactional
-    public Movie saveNewMovie(Movie movie) {
-        return mediaRepo.saveMovie(movie);
-    }
-
-    @Transactional
-    public TvShow saveNewShow(TvShow show) {
-        return mediaRepo.saveShow(show);
+    public Media saveNewMedia(Media media) {
+        return mediaRepo.save(media);
     }
 
     @Transactional
@@ -45,12 +32,12 @@ public class MediaService {
     }
 
     @Transactional
-    public List<Media> getAllMediaByType(String type) {
+    public List<Media> getAllMediaByType(MediaTypes type) {
         return mediaRepo.findAllByType(type);
     }
 
     @Transactional
-    public List<Media> getAllByTypeAndSearch(String search, String type) {
+    public List<Media> getAllByTypeAndSearch(String search, MediaTypes type) {
         return mediaRepo.findAllByTypeAndSearch(search, type);
     }
 
@@ -78,7 +65,6 @@ public class MediaService {
     public List<Media> deleteFromFavorites(User user, Media media){
         return mediaRepo.removeFromFavorites(user, media);
     }
-
 
     @Transactional
     public List<Media> deleteFromWatchlist(User user, Media media){

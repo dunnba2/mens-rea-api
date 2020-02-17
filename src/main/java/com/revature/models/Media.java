@@ -6,9 +6,8 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="MEDIA_TYPE")
 @SequenceGenerator(name="media_gen", sequenceName = "media_seq", allocationSize = 1)
-public abstract class Media {
+public class Media {
 
     @Id
     @Column
@@ -34,25 +33,30 @@ public abstract class Media {
     @Column(nullable = false)
     private int userRating;
 
+    @Enumerated(EnumType.STRING)
+    private MediaTypes type;
+
     public Media () {
         super();
     }
 
-    public Media(String title, String creator, String year, String targetAudience, int userRating) {
+    public Media(String title, String creator, String year, String targetAudience, int userRating, MediaTypes type) {
         this.title = title;
         this.creator = creator;
         this.year = year;
         this.targetAudience = targetAudience;
         this.userRating = userRating;
+        this.type = type;
     }
 
-    public Media(int mediaId, String title, String creator, String year, String targetAudience, int userRating) {
+    public Media(int mediaId, String title, String creator, String year, String targetAudience, int userRating, MediaTypes type) {
         this.mediaId = mediaId;
         this.title = title;
         this.creator = creator;
         this.year = year;
         this.targetAudience = targetAudience;
         this.userRating = userRating;
+        this.type = type;
     }
 
     public int getMediaId() {
@@ -103,6 +107,14 @@ public abstract class Media {
         this.userRating = userRating;
     }
 
+    public MediaTypes getType() {
+        return type;
+    }
+
+    public void setType(MediaTypes type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,23 +125,25 @@ public abstract class Media {
                 Objects.equals(title, media.title) &&
                 Objects.equals(creator, media.creator) &&
                 Objects.equals(year, media.year) &&
-                Objects.equals(targetAudience, media.targetAudience);
+                Objects.equals(targetAudience, media.targetAudience) &&
+                type == media.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mediaId, title, creator, year, targetAudience, userRating);
+        return Objects.hash(mediaId, title, creator, year, targetAudience, userRating, type);
     }
 
     @Override
     public String toString() {
         return "Media{" +
-                "id=" + mediaId +
+                "mediaId=" + mediaId +
                 ", title='" + title + '\'' +
                 ", creator='" + creator + '\'' +
                 ", year='" + year + '\'' +
                 ", targetAudience='" + targetAudience + '\'' +
                 ", userRating=" + userRating +
+                ", type=" + type +
                 '}';
     }
 }
