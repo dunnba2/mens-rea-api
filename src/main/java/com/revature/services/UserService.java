@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import com.revature.exceptions.AuthenticationException;
+import com.revature.exceptions.InvalidRequestException;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.repos.UserRepository;
@@ -20,13 +22,22 @@ public class UserService {
 
     @Transactional
     public User register(User user) {
-        user.setRole(Role.MEMBER);
-        repo.save(user);
-        return user;
+        try {
+            user.setRole(Role.MEMBER);
+            repo.save(user);
+            return user;
+        }catch (Exception e) {
+            throw new InvalidRequestException("Username is already taken");
+        }
+
     }
 
     @Transactional
     public User authenticate(Credentials creds) {
-        return repo.findByCredentials(creds);
+        try {
+            return repo.findByCredentials(creds);
+        }catch(Exception e) {
+            throw new AuthenticationException(e.getMessage());
+        }
     }
 }

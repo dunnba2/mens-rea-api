@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.models.Media;
 import com.revature.models.MediaTypes;
 import com.revature.models.User;
@@ -38,7 +39,12 @@ public class MediaService {
 
     @Transactional
     public List<Media> getAllByTypeAndSearch(String search, MediaTypes type) {
-        return mediaRepo.findAllByTypeAndSearch(search, type);
+        try {
+            return mediaRepo.findAllByTypeAndSearch(search, type);
+        }catch (Exception e) {
+            throw new ResourceNotFoundException("Could not find any media by that search");
+        }
+
     }
 
     @Transactional
@@ -53,12 +59,20 @@ public class MediaService {
 
     @Transactional
     public List<Media> getFavorites(int id) {
-        return mediaRepo.findFavorites(id);
+        try {
+            return mediaRepo.findFavorites(id);
+        }catch(Exception e) {
+            throw new ResourceNotFoundException("There are no favorites for this user");
+        }
     }
 
     @Transactional
     public List<Media> getWatchlist(int id) {
-        return mediaRepo.findWatchlist(id);
+        try {
+            return mediaRepo.findWatchlist(id);
+        }catch(Exception e) {
+            throw new ResourceNotFoundException("There is no watchlist for this user");
+        }
     }
 
     @Transactional

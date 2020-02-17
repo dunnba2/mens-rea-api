@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.models.Review;
 import com.revature.repos.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,12 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<Review> getAllReviewsById (int id) {
-        return reviewRepo.findAllById(id);
+        try {
+            return reviewRepo.findAllById(id);
+        }catch(Exception e) {
+            throw new ResourceNotFoundException("There are no reviews for this media");
+        }
+
     }
 
     @Transactional
