@@ -51,6 +51,11 @@ public class MediaController {
         return mediaService.getAllMediaByType(type);
     }
 
+    @GetMapping(value = "/{search}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getAllBySearchAndType(@PathVariable("search") String search, @PathVariable("type") String type) {
+        return mediaService.getAllByTypeAndSearch(search, type);
+    }
+
     @GetMapping(value = "/Show", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Media> getAllShows() {
         String type = "SHOW";
