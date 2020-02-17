@@ -1,10 +1,15 @@
 package com.revature.web.controllers;
 
+import com.revature.exceptions.AuthenticationException;
+import com.revature.exceptions.InvalidRequestException;
+import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.models.Media;
 import com.revature.models.MediaTypes;
 import com.revature.models.User;
 import com.revature.services.MediaService;
+import com.revature.web.dtos.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,5 +101,27 @@ public class MediaController {
     @GetMapping(value = "/removewatch", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteFromWatchlist (@RequestBody User user, Media media) {
         mediaService.deleteFromWatchlist(user, media);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidRequestException(InvalidRequestException e) {
+
+        ErrorResponse err = new ErrorResponse();
+        err.setMessage(e.getMessage());
+        err.setTimestamp(System.currentTimeMillis());
+        err.setStatus(400);
+        return err;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e) {
+
+        ErrorResponse err = new ErrorResponse();
+        err.setMessage(e.getMessage());
+        err.setTimestamp(System.currentTimeMillis());
+        err.setStatus(400);
+        return err;
     }
 }
