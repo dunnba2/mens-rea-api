@@ -1,15 +1,14 @@
 package com.revature.repos;
 
-import com.revature.models.Media;
 import com.revature.models.Review;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class ReviewRepository implements CrudRepository<Review> {
@@ -62,9 +61,9 @@ public class ReviewRepository implements CrudRepository<Review> {
 
         List<Review> reviews = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        session.createQuery("from Reviews r where r.mediaId = :mediaId", Review.class)
-                .setParameter("mediaId", id)
-                .getResultList();
+        Query query = session.createQuery("from Reviews r where r.mediaId = :mediaId", Review.class);
+        query.setParameter("mediaId", id);
+        reviews = query.getResultList();
         return reviews;
     }
 }
