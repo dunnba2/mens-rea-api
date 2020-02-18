@@ -5,6 +5,7 @@ import com.revature.exceptions.InvalidRequestException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.web.dtos.ErrorResponse;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,7 +32,7 @@ public class UserController {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidRequestException(InvalidRequestException e) {
+    public ErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
 
         ErrorResponse err = new ErrorResponse();
         err.setMessage(e.getMessage());

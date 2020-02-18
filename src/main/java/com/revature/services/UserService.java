@@ -22,14 +22,10 @@ public class UserService {
 
     @Transactional
     public User register(User user) {
-        try {
+
             user.setRole(Role.MEMBER);
             repo.save(user);
             return user;
-        }catch (Exception e) {
-            throw new InvalidRequestException("Username is already taken");
-        }
-
     }
 
     @Transactional
