@@ -1,11 +1,14 @@
 package com.revature.repos;
 
 
+import com.revature.exceptions.InvalidRequestException;
 import com.revature.models.User;
 import com.revature.web.dtos.Credentials;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -23,11 +26,14 @@ public class UserRepository implements CrudRepository<User> {
     }
 
     @Override
-    public User save(User newUser) {
+    public User save(User newUser) throws ConstraintViolationException, DataIntegrityViolationException {
 
-        Session session = factory.getCurrentSession();
-        session.save(newUser);
-
+        try {
+            Session session = factory.getCurrentSession();
+            session.save(newUser);
+        }catch (Exception e) {
+            throw new InvalidRequestException("Sorry username is already taken.");
+        }
         return newUser;
     }
 
