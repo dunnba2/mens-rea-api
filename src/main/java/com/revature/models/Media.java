@@ -40,6 +40,10 @@ public class Media {
         super();
     }
 
+    public Media(int mediaId) {
+        this.mediaId = mediaId;
+    }
+
     public Media(String title, String creator, String year, String targetAudience, int userRating, MediaTypes type) {
         this.title = title;
         this.creator = creator;
