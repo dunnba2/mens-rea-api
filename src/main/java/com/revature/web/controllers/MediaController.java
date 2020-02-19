@@ -72,13 +72,13 @@ public class MediaController {
         return mediaService.getAllMediaByType(type);
     }
 
-    @PostMapping(value = "/favorites", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveNewFavorite(@RequestBody User user, Media media) {
+    @PostMapping(value = "/favorites/{id}/{mediaId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveNewFavorite(@PathVariable("id") User user, @PathVariable("mediaId") Media media) {
         mediaService.saveToFavorites(user, media);
     }
 
-    @PostMapping(value = "/watchlist", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveToWatchlist(@RequestBody User user, Media media) {
+    @PostMapping(value = "/watchlist/{id}/{mediaId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveToWatchlist(@PathVariable("id") User user, @PathVariable("mediaId") Media media) {
         mediaService.saveToWatchlist(user, media);
     }
 
