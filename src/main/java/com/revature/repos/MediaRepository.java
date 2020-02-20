@@ -8,8 +8,15 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Query;
 import java.util.*;
+
+@NamedNativeQueries({
+        @NamedNativeQuery(name="getFavoritesById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type   from media m join favorites f on f.media_id = m.mediaid join users u on u.userid = f.user_id where f.user_id = :id"),
+        @NamedNativeQuery(name="getWatchlistById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type  from media m join watchlist w on w.media_id = m.mediaid join users u on u.userid = w.user_id where w.user_id = :id")
+})
 
 @Repository
 public class MediaRepository implements CrudRepository<Media> {
@@ -60,11 +67,9 @@ public class MediaRepository implements CrudRepository<Media> {
     }
 
     public List<Media> findFavorites(int id) {
-        List<Media> favorites = new ArrayList<>();
+
         Session session = factory.getCurrentSession();
-        Query query = session.createQuery("from Favorites f where f.userid = :userid", Media.class);
-        query.setParameter("userid", id);
-        favorites = query.getResultList();
+        List<Media> favorites = session.getNamedQuery("getFavoritesById_SQL").setParameter("id", id).getResultList();
         return favorites;
     }
 
@@ -85,8 +90,8 @@ public class MediaRepository implements CrudRepository<Media> {
     public List<Media> findWatchlist(int id) {
         List<Media> watchList = new ArrayList<>();
         Session session = factory.getCurrentSession();
-        Query query = session.createQuery("from WATCHLIST w where w.userid = :userid", Media.class);
-        query.setParameter("userid", id);
+        Query query = session.getNamedQuery("getWatchlistById_SQL");
+        query.setParameter("id", id);
         watchList = query.getResultList();
         return watchList;
     }
