@@ -70,8 +70,10 @@ public class MediaRepository implements CrudRepository<Media> {
 
     public void saveToFavorites(User user, Media media) {
         Session session = factory.getCurrentSession();
+        user = session.get(User.class, user.getUserId());
+        media = session.get(Media.class, media.getMediaId());
         user.addFavorite(media);
-        session.save(media);
+        session.saveOrUpdate(media);
     }
 
     public List<Media> removeFromFavorites(User user, Media media){
@@ -91,8 +93,9 @@ public class MediaRepository implements CrudRepository<Media> {
 
     public void saveToWatchlist(User user, Media media) {
         Session session = factory.getCurrentSession();
+        user = session.get(User.class, user.getUserId());
         user.addToWatchlist(media);
-        session.save(media);
+        session.saveOrUpdate(media);
     }
 
     public List<Media> removeFromWatchList(User user, Media media){
