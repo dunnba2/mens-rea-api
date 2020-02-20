@@ -84,12 +84,12 @@ public class MediaController {
     }
 
     @GetMapping(value = "/favorites/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getFavorites(@PathVariable int id) {
+    public List<Media> getFavorites(@PathVariable("id") int id) {
         return mediaService.getFavorites(id);
     }
 
     @GetMapping(value = "/watchlist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getWatchlist(@PathVariable int id) {
+    public List<Media> getWatchlist(@PathVariable("id") int id) {
         return mediaService.getWatchlist(id);
     }
 
