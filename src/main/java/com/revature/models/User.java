@@ -38,7 +38,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name="WATCHLIST",
             joinColumns = @JoinColumn(name="user_id"),
@@ -46,7 +46,7 @@ public class User implements Serializable {
     )
     private List<Media> watchList;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name="Favorites",
             joinColumns = @JoinColumn(name="user_id"),
@@ -149,9 +149,9 @@ public class User implements Serializable {
         this.favorites = favorites;
     }
 
-    public void addFavorite(Media fav) {
+    public void addFavorite(Media media) {
         if(favorites == null) favorites = new ArrayList<>();
-        favorites.add(fav);
+        favorites.add(media);
     }
 
     public void removeFromFavorite(Media media){
