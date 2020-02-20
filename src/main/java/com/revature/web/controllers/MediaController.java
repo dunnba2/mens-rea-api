@@ -73,7 +73,9 @@ public class MediaController {
     }
 
     @PostMapping(value = "/favorites/{id}/{mediaId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveNewFavorite(@PathVariable("id") User user, @PathVariable("mediaId") Media media) {
+    public void saveNewFavorite(@PathVariable("id") int id, @PathVariable("mediaId") int mediaId) {
+        User user = new User(id);
+        Media media = new Media(mediaId);
         mediaService.saveToFavorites(user, media);
     }
 
