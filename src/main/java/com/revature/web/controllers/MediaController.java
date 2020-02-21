@@ -70,6 +70,41 @@ public class MediaController {
         return mediaService.getAllMediaByType(type);
     }
 
+
+    @PostMapping(value = "/favorites/{id}/{mediaId}")
+    public void saveNewFavorite(@PathVariable("id") int id, @PathVariable("mediaId") int mediaId) {
+
+        mediaService.saveToFavorites(id, mediaId);
+    }
+    //changes
+
+    @PostMapping(value = "/watchlist/{id}/{mediaId}")
+    public void saveToWatchlist(@PathVariable("id") int id, @PathVariable("mediaId") int mediaId) {
+        mediaService.saveToWatchlist(id, mediaId);
+    }
+
+    @GetMapping(value = "/favorites/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getFavorites(@PathVariable("id") int id) {
+        return mediaService.getFavorites(id);
+    }
+
+    @GetMapping(value = "/watchlist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Media> getWatchlist(@PathVariable("id") int id) {
+        return mediaService.getWatchlist(id);
+    }
+
+    /* the deletion implementation might need some adjustments */
+    @GetMapping(value = "/removefav", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFromFavorites (@RequestBody User user, Media media) {
+        mediaService.deleteFromFavorites(user, media);
+    }
+
+    @GetMapping(value = "/removewatch", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFromWatchlist (@RequestBody User user, Media media) {
+        mediaService.deleteFromWatchlist(user, media);
+    }
+
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidRequestException(InvalidRequestException e) {
