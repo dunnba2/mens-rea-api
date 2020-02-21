@@ -77,6 +77,7 @@ public class MediaController {
 
         mediaService.saveToFavorites(id, mediaId);
     }
+    //changes
 
     @PostMapping(value = "/watchlist/{id}/{mediaId}")
     public void saveToWatchlist(@PathVariable("id") int id, @PathVariable("mediaId") int mediaId) {
