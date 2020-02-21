@@ -1,11 +1,9 @@
 package com.revature.web.controllers;
 
-import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.models.Media;
 import com.revature.models.MediaTypes;
-import com.revature.models.User;
 import com.revature.services.MediaService;
 import com.revature.web.dtos.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +70,7 @@ public class MediaController {
         return mediaService.getAllMediaByType(type);
     }
 
+
     @PostMapping(value = "/favorites/{id}/{mediaId}")
     public void saveNewFavorite(@PathVariable("id") int id, @PathVariable("mediaId") int mediaId) {
 
@@ -104,6 +103,7 @@ public class MediaController {
     public void deleteFromWatchlist (@RequestBody User user, Media media) {
         mediaService.deleteFromWatchlist(user, media);
     }
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)

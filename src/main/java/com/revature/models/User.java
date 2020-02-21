@@ -38,21 +38,11 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name="WATCHLIST",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id")
-    )
-    private List<Media> watchList;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name="Favorites",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id")
-    )
-    private List<Media> favorites;
+//    @OneToMany(mappedBy = "user")
+//    private List<Favorite> favorites;
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<WatchList> watchList;
 
     public User() {
         super();
@@ -133,39 +123,33 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public List<Media> getWatchList() {
-        return watchList;
-    }
+//    public List<Favorite> getFavorites() {
+//        return favorites;
+//    }
+//
+//    public void setFavorites(List<Favorite> favorites) {
+//        this.favorites = favorites;
+//    }
+//
+//    public List<WatchList> getWatchList() {
+//        return watchList;
+//    }
+//
+//    public void setWatchList(List<WatchList> watchList) {
+//        this.watchList = watchList;
+//    }
 
-    public void setWatchList(List<Media> watchList) {
-        this.watchList = watchList;
-    }
-
-    public List<Media> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<Media> favorites) {
-        this.favorites = favorites;
-    }
-
-    public void addFavorite(Media media) {
-        if(favorites == null) favorites = new ArrayList<>();
-        favorites.add(media);
-    }
-
-    public void removeFromFavorite(Media media){
-        favorites.remove(media);
-    }
-
-    public void addToWatchlist(Media newItem) {
-        if(watchList == null) watchList = new ArrayList<>();
-        watchList.add(newItem);
-    }
-
-    private void removeFromWatchlist(Media media){
-        watchList.remove(media);
-    }
+//    public void addFavorites(Favorite favorite) {
+//        if (favorites == null) favorites = new ArrayList<>();
+//        favorite.setUser(this);
+//        favorites.add(favorite);
+//    }
+//
+//    public void addWatchList(WatchList watchLists) {
+//        if (watchList == null) watchList = new ArrayList<>();
+//        watchLists.setUser(this);
+//        watchList.add(watchLists);
+//    }
 
     public Principal extractPrincipal(){
         return new Principal(this.userId, this.username, this.role);
