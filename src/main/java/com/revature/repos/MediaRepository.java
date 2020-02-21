@@ -2,21 +2,12 @@ package com.revature.repos;
 
 import com.revature.models.Media;
 import com.revature.models.MediaTypes;
-import com.revature.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.Query;
 import java.util.*;
-
-@NamedNativeQueries({
-        @NamedNativeQuery(name="getFavoritesById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type   from media m join favorites f on f.media_id = m.mediaid join users u on u.userid = f.user_id where f.user_id = :id"),
-        @NamedNativeQuery(name="getWatchlistById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type  from media m join watchlist w on w.media_id = m.mediaid join users u on u.userid = w.user_id where w.user_id = :id")
-})
 
 @Repository
 public class MediaRepository implements CrudRepository<Media> {
@@ -64,48 +55,6 @@ public class MediaRepository implements CrudRepository<Media> {
     @Override
     public void deleteById(Integer id) {
 
-    }
-
-    public List<Media> findFavorites(int id) {
-
-        Session session = factory.getCurrentSession();
-        List<Media> favorites = session.getNamedQuery("getFavoritesById_SQL").setParameter("id", id).getResultList();
-        return favorites;
-    }
-
-    public void saveToFavorites(User user, Media media) {
-        Session session = factory.getCurrentSession();
-
-        user.addFavorite(media);
-
-        session.saveOrUpdate(media);
-    }
-
-    public List<Media> removeFromFavorites(User user, Media media){
-        Session session = factory.getCurrentSession();
-        user.removeFromFavorite(media);
-        return findFavorites(user.getUserId());
-    }
-
-    public List<Media> findWatchlist(int id) {
-        List<Media> watchList = new ArrayList<>();
-        Session session = factory.getCurrentSession();
-        Query query = session.getNamedQuery("getWatchlistById_SQL");
-        query.setParameter("id", id);
-        watchList = query.getResultList();
-        return watchList;
-    }
-
-    public void saveToWatchlist(User user, Media media) {
-        Session session = factory.getCurrentSession();
-        user.addToWatchlist(media);
-        session.saveOrUpdate(media);
-    }
-
-    public List<Media> removeFromWatchList(User user, Media media){
-        Session session = factory.getCurrentSession();
-        user.removeFromFavorite(media);
-        return findWatchlist(user.getUserId());
     }
 
     public List<Media> findAllByType (MediaTypes type) {
