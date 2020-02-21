@@ -14,8 +14,8 @@ import javax.persistence.Query;
 import java.util.*;
 
 @NamedNativeQueries({
-        @NamedNativeQuery(name="getFavoritesById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type   from media m join favorites f on f.media_id = m.mediaid join users u on u.userid = f.user_id where f.user_id = :id"),
-        @NamedNativeQuery(name="getWatchlistById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type  from media m join watchlist w on w.media_id = m.mediaid join users u on u.userid = w.user_id where w.user_id = :id")
+        @NamedNativeQuery(name="getFavoritesById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type from media m join favorites f on f.media_id = m.mediaid join users u on u.userid = f.user_id where f.user_id = :id", resultClass = Media.class),
+        @NamedNativeQuery(name="getWatchlistById_SQL", query="select m.mediaId, m.title, m.creator, m.year, m.targetAudience, m.userRating, m.type from media m join watchlist w on w.media_id = m.mediaid join users u on u.userid = w.user_id where w.user_id = :id", resultClass = Media.class)
 })
 
 @Repository
