@@ -1,9 +1,11 @@
 package com.revature.web.controllers;
 
+import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.models.Media;
 import com.revature.models.MediaTypes;
+import com.revature.models.User;
 import com.revature.services.MediaService;
 import com.revature.web.dtos.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
