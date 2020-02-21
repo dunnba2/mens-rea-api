@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,24 +64,6 @@ public class MediaService {
         User user = getUserById(id);
         Media media = getMediaById(mediaId);
         mediaRepo.saveToWatchlist(user, media);
-    }
-
-    @Transactional
-    public List<Media> getFavorites(int id) {
-        try {
-            return mediaRepo.findFavorites(id);
-        }catch(Exception e) {
-            throw new ResourceNotFoundException("There are no favorites for this user");
-        }
-    }
-
-    @Transactional
-    public List<Media> getWatchlist(int id) {
-        try {
-            return mediaRepo.findWatchlist(id);
-        }catch(Exception e) {
-            throw new ResourceNotFoundException("There is no watchlist for this user");
-        }
     }
 
     @Transactional

@@ -2,6 +2,8 @@ package com.revature.models;
 
 import com.revature.util.RegexUtil;
 import com.revature.web.dtos.Principal;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -38,6 +40,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name="WATCHLIST",
@@ -46,6 +49,7 @@ public class User implements Serializable {
     )
     private List<Media> watchList;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name="Favorites",
@@ -91,6 +95,24 @@ public class User implements Serializable {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public User(int userId, @NotNull @NotEmpty String username, @NotEmpty @NotNull @Pattern(regexp = RegexUtil.passwordRegex) String password, @NotNull @Pattern(regexp = RegexUtil.emailRegex) String email, Role role) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User(int userId, @NotNull @NotEmpty String username, @NotEmpty @NotNull @Pattern(regexp = RegexUtil.passwordRegex) String password, @NotNull @Pattern(regexp = RegexUtil.emailRegex) String email, Role role, List<Media> watchList, List<Media> favorites) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.watchList = watchList;
+        this.favorites = favorites;
     }
 
     public int getUserId() {
