@@ -72,6 +72,7 @@ public class MediaController {
         return mediaService.getAllMediaByType(type);
     }
 
+
     @PostMapping(value = "/favorites/{id}/{mediaId}")
     public void saveNewFavorite(@PathVariable("id") int id, @PathVariable("mediaId") int mediaId) {
 
@@ -104,6 +105,7 @@ public class MediaController {
     public void deleteFromWatchlist (@RequestBody User user, Media media) {
         mediaService.deleteFromWatchlist(user, media);
     }
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
