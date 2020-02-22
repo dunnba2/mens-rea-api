@@ -1,7 +1,9 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "REVIEWS")
 @SequenceGenerator(name="review_gen", sequenceName = "review_seq", allocationSize = 1)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Review implements Serializable {
 
     @Id
@@ -18,12 +23,12 @@ public class Review implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_gen")
     private int id;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private User user;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @JoinColumn(name = "media_id", nullable = false)
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private Media media;

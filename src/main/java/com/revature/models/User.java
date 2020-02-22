@@ -1,7 +1,9 @@
 package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.revature.util.RegexUtil;
 import com.revature.web.dtos.Principal;
 import org.hibernate.annotations.LazyCollection;
@@ -17,6 +19,9 @@ import java.util.*;
 @Entity
 @Table (name="USERS")
 @SequenceGenerator(name="user_gen", sequenceName = "user_seq", allocationSize = 1)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "userId")
 public class User implements Serializable {
 
     @Id
@@ -28,7 +33,7 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @JsonIgnore
+//    @JsonIgnore
     @NotEmpty
     @NotNull
     @Pattern(regexp = RegexUtil.passwordRegex)
@@ -63,7 +68,7 @@ public class User implements Serializable {
     )
     private List<Media> favorites;
 
-    @JsonBackReference
+//    @JsonBackReference
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
