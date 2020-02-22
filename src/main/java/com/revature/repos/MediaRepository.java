@@ -75,9 +75,7 @@ public class MediaRepository implements CrudRepository<Media> {
 
     public void saveToFavorites(User user, Media media) {
         Session session = factory.getCurrentSession();
-
         user.addFavorite(media);
-
         session.saveOrUpdate(media);
     }
 

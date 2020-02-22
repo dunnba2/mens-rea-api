@@ -1,7 +1,13 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -37,6 +43,11 @@ public class Media {
 
     @Enumerated(EnumType.STRING)
     private MediaTypes type;
+
+    @JsonBackReference
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "media")
+    private List<Review> reviews;
 
     public Media () {
         super();
@@ -119,6 +130,20 @@ public class Media {
 
     public void setType(MediaTypes type) {
         this.type = type;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void addReview(Review review) {
+        if (reviews == null) reviews = new ArrayList<>();
+        review.setMedia(this);
+        reviews.add(review);
     }
 
     @Override
