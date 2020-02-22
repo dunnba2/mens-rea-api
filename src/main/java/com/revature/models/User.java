@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.util.RegexUtil;
 import com.revature.web.dtos.Principal;
 import org.hibernate.annotations.LazyCollection;
@@ -26,6 +28,7 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @JsonIgnore
     @NotEmpty
     @NotNull
     @Pattern(regexp = RegexUtil.passwordRegex)
@@ -40,6 +43,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
@@ -49,6 +53,7 @@ public class User implements Serializable {
     )
     private List<Media> watchList;
 
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
@@ -57,6 +62,11 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "media_id")
     )
     private List<Media> favorites;
+
+    @JsonBackReference
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 
     public User() {
         super();
@@ -183,6 +193,12 @@ public class User implements Serializable {
     public void addToWatchlist(Media newItem) {
         if(watchList == null) watchList = new ArrayList<>();
         watchList.add(newItem);
+    }
+
+    public void addReview(Review review) {
+        if (reviews == null) reviews = new ArrayList<>();
+        review.setUser(this);
+        reviews.add(review);
     }
 
     private void removeFromWatchlist(Media media){

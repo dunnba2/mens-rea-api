@@ -49,7 +49,6 @@ public class MediaService {
         }catch (Exception e) {
             throw new ResourceNotFoundException("Could not find any media by that search");
         }
-
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
