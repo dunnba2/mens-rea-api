@@ -8,11 +8,13 @@ import com.revature.models.MediaTypes;
 import com.revature.models.User;
 import com.revature.services.MediaService;
 import com.revature.web.dtos.ErrorResponse;
+import com.revature.web.dtos.MediaList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,8 +35,11 @@ public class MediaController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getAllMedia() {
-        return mediaService.getAllMedia();
+    public List<MediaList> getAllMedia() {
+        List<Media> media = mediaService.getAllMedia();
+        List<MediaList> mediaList = new ArrayList<>();
+        media.forEach(m -> mediaList.add(m.extractMediaList()));
+        return mediaList;
     }
 
     @GetMapping(value = "/Book", produces = MediaType.APPLICATION_JSON_VALUE)
