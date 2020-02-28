@@ -5,12 +5,15 @@ import com.revature.models.Media;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.web.dtos.ErrorResponse;
+import com.revature.web.dtos.MediaList;
+import com.revature.web.dtos.Principal;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,18 +34,27 @@ public class UserController {
     }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getAll() {
-        return userService.getAllUsers();
+    public List<Principal> getAll() {
+        List<User> users = userService.getAllUsers();
+        List<Principal> principals = new ArrayList<>();
+        users.forEach(u -> principals.add(u.extractPrincipal()));
+        return principals;
     }
 
-    @GetMapping(value = "/favorites/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getFavorites(@PathVariable("id") int id) {
-        return userService.getFavorites(id);
+    @GetMapping(value ="/favorites/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MediaList> getFavorites(@PathVariable("id") int id) {
+        List<Media> media = userService.getFavorites(id);
+        List<MediaList> favorites = new ArrayList<>();
+        media.forEach(m -> favorites.add(m.extractMediaList()));
+        return favorites;
     }
 
-    @GetMapping(value = "/watchlist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Media> getWatchlist(@PathVariable("id") int id) {
-        return userService.getWatchlist(id);
+    @GetMapping(value="/watchlist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MediaList> getWatchlist(@PathVariable("id") int id) {
+        List<Media> media = userService.getWatchlist(id);
+        List<MediaList> watchList = new ArrayList<>();
+        media.forEach(m -> watchList.add(m.extractMediaList()));
+        return watchList;
     }
 
     @ExceptionHandler

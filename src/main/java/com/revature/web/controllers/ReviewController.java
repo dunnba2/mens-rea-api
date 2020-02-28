@@ -5,11 +5,13 @@ import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.models.Review;
 import com.revature.services.ReviewService;
 import com.revature.web.dtos.ErrorResponse;
+import com.revature.web.dtos.Reviews;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,8 +27,11 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Review> getReviewsById (@PathVariable int id) {
-        return reviewService.getAllReviewsById(id);
+    public List<Reviews> getReviewsById (@PathVariable int id) {
+        List<Review> reviews = reviewService.getAllReviewsById(id);
+        List<Reviews> reviewsList = new ArrayList<>();
+        reviews.forEach(r -> reviewsList.add(r.extractReviews()));
+        return reviewsList;
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

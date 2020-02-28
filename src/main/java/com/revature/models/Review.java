@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.revature.web.dtos.Reviews;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -115,6 +116,10 @@ public class Review implements Serializable {
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public Reviews extractReviews() {
+        return new Reviews(this.user.getUserId(), this.media.getMediaId(), this.review, this.recommended);
     }
 
     @Override

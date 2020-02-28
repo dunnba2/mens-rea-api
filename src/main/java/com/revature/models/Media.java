@@ -3,6 +3,7 @@ package com.revature.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.revature.web.dtos.MediaList;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -150,6 +151,10 @@ public class Media implements Serializable {
         if (reviews == null) reviews = new ArrayList<>();
         review.setMedia(this);
         reviews.add(review);
+    }
+
+    public MediaList extractMediaList() {
+        return new MediaList(this.mediaId, this.title, this.creator, this.year, this.targetAudience, this.userRating, this.type);
     }
 
     @Override
